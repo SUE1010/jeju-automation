@@ -15,6 +15,14 @@
     ]}
   ];
 
+  function readJSON(r) {
+    return r.text().then(function (t) {
+      var d;
+      try { d = JSON.parse(t); } catch (e) { d = { error: '서버 오류가 발생했습니다 (코드 ' + r.status + '). Vercel의 Logs에서 원인을 확인해 주세요.' }; }
+      return { ok: r.ok, status: r.status, data: d };
+    });
+  }
+
   var $ = function (id) { return document.getElementById(id); };
 
   function show(view) {
@@ -79,7 +87,7 @@
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ key: it.key, url: v })
           }).then(function (r) {
-            return r.json().then(function (d) { return { ok: r.ok, status: r.status, data: d }; });
+            return readJSON(r);
           }).then(function (res) {
             if (res.status === 401) { show('login'); return; }
             if (!res.ok) throw new Error(res.data.error || '저장하지 못했습니다.');
@@ -135,7 +143,7 @@
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ texts: texts })
     }).then(function (r) {
-      return r.json().then(function (d) { return { ok: r.ok, status: r.status, data: d }; });
+      return readJSON(r);
     }).then(function (res) {
       if (res.status === 401) { show('login'); return; }
       if (!res.ok) throw new Error(res.data.error || '저장하지 못했습니다.');
@@ -152,7 +160,7 @@
 
   function loadAdmin() {
     fetch('/api/links', { cache: 'no-store' })
-      .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, data: d }; }); })
+      .then(function (r) { return readJSON(r); })
       .then(function (res) {
         var err = $('store-error');
         if (!res.ok) { err.textContent = res.data.error || '링크를 불러오지 못했습니다.'; err.hidden = false; }
@@ -183,7 +191,7 @@
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ password: pw.value })
     }).then(function (r) {
-      return r.json().then(function (d) { return { ok: r.ok, data: d }; });
+      return readJSON(r);
     }).then(function (res) {
       pw.value = '';
       if (res.ok) { loadAdmin(); return; }

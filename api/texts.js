@@ -1,5 +1,16 @@
-import { getTexts, redis, storeReady, TEXTS_KEY, TEXT_KEYS } from './_lib/store.js';
+import { redis, storeReady } from './_lib/store.js';
 import { isLoggedIn } from './_lib/auth.js';
+
+// 하단(푸터) 문구 — 이 파일 안에서만 쓰므로 여기에 둡니다.
+const TEXTS_KEY = 'jeju-automation:texts';
+const TEXT_KEYS = ['footer_title', 'footer_dept', 'footer_contact', 'footer_notice'];
+
+async function getTexts() {
+  const flat = (await redis('HGETALL', TEXTS_KEY)) || [];
+  const out = {};
+  for (let i = 0; i < flat.length; i += 2) out[flat[i]] = flat[i + 1];
+  return out;
+}
 
 export default async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store');

@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>관리자 | 제주시 업무자동화</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@500;600;700&amp;family=Noto+Sans+KR:wght@400;500;700&amp;display=swap">
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="/assets/admin.css">
+</head>
+<body class="admin">
+  <header class="admin-header">
+    <div class="wrap row">
+      <div class="brand">
+        <span class="brand-name">제주시 업무자동화</span>
+        <span class="badge-admin">관리자</span>
+      </div>
+      <div class="row gap8">
+        <button type="button" id="logout" class="btn-ghost" hidden>로그아웃</button>
+        <a href="/" class="btn-ghost">홈페이지 보기</a>
+      </div>
+    </div>
+  </header>
+
+  <div id="loading" class="center-msg">불러오는 중…</div>
+
+  <section id="login-view" class="login" hidden>
+    <form id="login-form" class="card login-card" novalidate>
+      <span class="lock-icon" aria-hidden="true">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#12355B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg>
+      </span>
+      <h1>관리자 로그인</h1>
+      <p class="muted">관리자 비밀번호를 입력해 주세요.</p>
+      <label for="admin-pw">비밀번호</label>
+      <input id="admin-pw" name="password" type="password" autocomplete="current-password" required>
+      <p id="login-error" class="msg-error" role="alert" hidden></p>
+      <button type="submit" class="btn-primary">로그인</button>
+      <a href="/" class="back-link">홈페이지로 돌아가기</a>
+    </form>
+  </section>
+
+  <div id="admin-view" class="wrap admin-layout" hidden>
+    <nav class="card side-nav" aria-label="관리 메뉴">
+      <a href="#links" class="nav-main">바로가기 링크 관리</a>
+      <a href="#group-chatbot" class="nav-sub">업무용 챗봇</a>
+      <a href="#group-automation" class="nav-sub">업무자동화</a>
+      <a href="#group-board" class="nav-sub">AI 서비스 게시판</a>
+      <a href="#group-footer" class="nav-main nav-main-2">하단 문구 관리</a>
+    </nav>
+    <main id="links" class="admin-main">
+      <h1 class="page-title">바로가기 링크 관리</h1>
+      <p class="muted">여기서 주소를 저장하면 홈페이지의 해당 버튼이 바로 이 주소로 연결됩니다. 주소를 지우고 저장하면 연결이 해제됩니다.</p>
+      <p id="store-error" class="msg-error" role="alert" hidden></p>
+      <div id="groups"></div>
+
+      <h2 class="group-title" id="group-footer">홈페이지 하단(푸터) 문구</h2>
+      <section class="card item">
+        <p class="muted">모든 페이지 맨 아래에 표시되는 문구입니다. 칸을 비우고 저장하면 그 줄은 화면에서 숨겨집니다.</p>
+        <form id="footer-form" class="footer-form" novalidate>
+          <div class="field">
+            <label for="ft-title">사이트 이름</label>
+            <input id="ft-title" name="footer_title" class="item-input" maxlength="200" placeholder="예) 제주시 업무자동화">
+          </div>
+          <div class="field">
+            <label for="ft-dept">담당 부서</label>
+            <input id="ft-dept" name="footer_dept" class="item-input" maxlength="200" placeholder="예) 제주시청 디지털혁신과 디지털운영팀">
+          </div>
+          <div class="field">
+            <label for="ft-contact">문의처</label>
+            <input id="ft-contact" name="footer_contact" class="item-input" maxlength="200" placeholder="예) 문의: 홍길동 주무관 · 064-000-0000">
+          </div>
+          <div class="field">
+            <label for="ft-notice">안내 문구</label>
+            <input id="ft-notice" name="footer_notice" class="item-input" maxlength="200" placeholder="예) 이 사이트는 제주시 직원 업무 지원용입니다.">
+          </div>
+          <div class="row-end">
+            <p id="footer-msg" class="item-msg" role="status"></p>
+            <button type="submit" class="btn-primary">하단 문구 저장</button>
+          </div>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <template id="item-tpl">
+    <section class="card item">
+      <div class="item-head">
+        <div>
+          <h3 class="item-title"></h3>
+          <p class="item-where muted"></p>
+        </div>
+        <span class="status"></span>
+      </div>
+      <form class="item-form" novalidate>
+        <label class="item-label">링크 주소 (URL)</label>
+        <div class="row-wrap">
+          <input type="url" class="item-input" placeholder="https://">
+          <button type="submit" class="btn-primary">저장</button>
+        </div>
+        <p class="item-msg" role="status"></p>
+      </form>
+      <div class="current">
+        <span class="muted">현재 연결된 주소</span>
+        <span class="current-val"></span>
+      </div>
+    </section>
+  </template>
+
+  <script src="/assets/admin.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+{
+  "name": "jeju-automation",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "제주시 업무자동화 소개 홈페이지",
+  "engines": { "node": ">=18" }
+}

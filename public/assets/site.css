@@ -1,0 +1,26 @@
+html { scroll-behavior: smooth; }
+body { margin: 0; background: #F6F8FB; -webkit-text-size-adjust: 100%; }
+a { color: #12355B; }
+a:hover { color: #0B2340; }
+a:focus-visible, button:focus-visible, input:focus-visible {
+  outline: 3px solid #2E6FD8;
+  outline-offset: 2px;
+}
+a[data-link].is-pending { opacity: 0.6; cursor: not-allowed; }
+
+.toast {
+  position: fixed; left: 50%; bottom: 32px; transform: translateX(-50%);
+  background: #1B2533; color: #FFFFFF; padding: 14px 22px; border-radius: 10px;
+  font: 500 15px/1.5 'Noto Sans KR', sans-serif; z-index: 100;
+  box-shadow: 0 8px 24px rgba(15, 34, 56, 0.25);
+}
+
+@media (max-width: 640px) {
+  .hero-title { font-size: 34px !important; }
+  h2 { font-size: 26px !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+[data-text]:empty { display: none; }

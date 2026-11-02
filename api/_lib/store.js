@@ -1,6 +1,32 @@
-// Upstash Redis(REST) 저장소. Vercel Marketplace에서 Upstash를 연결하면 환경변수가 자동으로 들어옵니다.
-const URL_ = process.env.UPSTASH_REDIS_REST_URL || process.env.KV_REST_API_URL;
-const TOKEN = process.env.UPSTASH_REDIS_REST_TOKEN || process.env.KV_REST_API_TOKEN;
+// Upstash Redis(REST) 저장소. Vercel에서 Upstash를 연결하면 환경변수가 자동으로 들어옵니다.
+// 연결할 때 붙인 접두어(예: STORAGE_, jeju_)가 달라도 찾을 수 있도록 이름 끝부분으로 찾습니다.
+function findStoreEnv() {
+  const env = process.env;
+  if (env.UPSTASH_REDIS_REST_URL && env.UPSTASH_REDIS_REST_TOKEN) {
+    return { url: env.UPSTASH_REDIS_REST_URL, token: env.UPSTASH_REDIS_REST_TOKEN, names: ['UPSTASH_REDIS_REST_URL', 'UPSTASH_REDIS_REST_TOKEN'] };
+  }
+  if (env.KV_REST_API_URL && env.KV_REST_API_TOKEN) {
+    return { url: env.KV_REST_API_URL, token: env.KV_REST_API_TOKEN, names: ['KV_REST_API_URL', 'KV_REST_API_TOKEN'] };
+  }
+  const pairs = [['KV_REST_API_URL', 'KV_REST_API_TOKEN'], ['REDIS_REST_URL', 'REDIS_REST_TOKEN']];
+  for (const key of Object.keys(env)) {
+    for (const [urlSuffix, tokenSuffix] of pairs) {
+      if (key.endsWith(urlSuffix) && env[key]) {
+        const tokenKey = key.slice(0, -urlSuffix.length) + tokenSuffix;
+        if (env[tokenKey]) return { url: env[key], token: env[tokenKey], names: [key, tokenKey] };
+      }
+    }
+  }
+  return null;
+}
+
+const FOUND = findStoreEnv();
+const URL_ = FOUND && FOUND.url;
+const TOKEN = FOUND && FOUND.token;
+
+export function storeEnvNames() {
+  return FOUND ? FOUND.names : [];
+}
 
 export function storeReady() {
   return Boolean(URL_ && TOKEN);

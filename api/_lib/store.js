@@ -55,3 +55,22 @@ export async function getLinks() {
   for (let i = 0; i < flat.length; i += 2) out[flat[i]] = flat[i + 1];
   return out;
 }
+
+// 관리자가 업로드한 HTML 페이지 (링크 대신 사용)
+export const PAGE_PREFIX = 'jeju-automation:page:';
+export const FILES_KEY = 'jeju-automation:link-files';
+
+// 업로드한 파일 정보 { key: { name, size, uploadedAt } }
+export async function getFiles() {
+  const flat = (await redis('HGETALL', FILES_KEY)) || [];
+  const out = {};
+  for (let i = 0; i < flat.length; i += 2) {
+    try { out[flat[i]] = JSON.parse(flat[i + 1]); } catch { /* 깨진 값은 무시 */ }
+  }
+  return out;
+}
+
+export async function removePage(key) {
+  await redis('DEL', PAGE_PREFIX + key);
+  await redis('HDEL', FILES_KEY, key);
+}

@@ -50,7 +50,8 @@
     var links = (data && data.links) || {};
     anchors.forEach(function (a) {
       var url = links[a.getAttribute('data-link')];
-      if (url && /^https?:\/\//i.test(url)) {
+      // 외부 주소(http/https) 또는 관리자가 업로드한 페이지(/p/항목)만 연결합니다.
+      if (url && (/^https?:\/\//i.test(url) || /^\/p\/[a-z]+(\?|$)/.test(url))) {
         a.href = url;
         a.target = '_blank';
         a.rel = 'noopener noreferrer';

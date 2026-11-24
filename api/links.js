@@ -1,4 +1,4 @@
-import { getLinks, redis, storeReady, LINKS_KEY, LINK_KEYS } from './_lib/store.js';
+import { getLinks, getFiles, removePage, redis, storeReady, LINKS_KEY, LINK_KEYS } from './_lib/store.js';
 import { isLoggedIn } from './_lib/auth.js';
 
 export default async function handler(req, res) {
@@ -10,7 +10,10 @@ export default async function handler(req, res) {
 
   if (req.method === 'GET') {
     try {
-      return res.status(200).json({ links: await getLinks() });
+      const links = await getLinks();
+      // 업로드한 파일 정보는 관리자 화면에서만 필요합니다.
+      if (isLoggedIn(req)) return res.status(200).json({ links, files: await getFiles() });
+      return res.status(200).json({ links });
     } catch {
       return res.status(500).json({ error: '링크를 불러오지 못했습니다.' });
     }
@@ -26,12 +29,14 @@ export default async function handler(req, res) {
     try {
       if (!value) {
         await redis('HDEL', LINKS_KEY, key);
+        await removePage(key); // 업로드한 HTML이 있었다면 함께 삭제
         return res.status(200).json({ ok: true, key, url: '' });
       }
       if (value.length > 2000 || !/^https?:\/\/[^\s<>"']+$/i.test(value)) {
         return res.status(400).json({ error: 'http:// 또는 https:// 로 시작하는 주소를 입력해 주세요.' });
       }
       await redis('HSET', LINKS_KEY, key, value);
+      await removePage(key); // 주소 입력으로 바꾸면 이전에 올린 HTML은 삭제
       return res.status(200).json({ ok: true, key, url: value });
     } catch {
       return res.status(500).json({ error: '저장하지 못했습니다. 잠시 후 다시 시도해 주세요.' });

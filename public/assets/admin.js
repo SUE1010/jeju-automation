@@ -1,7 +1,7 @@
 (function () {
   var GROUPS = [
     { id: 'group-chatbot', title: '업무용 챗봇', items: [
-      { key: 'manneung', title: '만능서무 챗봇 바로가기', where: '메인 › 업무용 챗봇 › 만능서무 챗봇 카드' },
+      { key: 'manneung', title: '만능서무 챗봇 바로가기', where: '만능서무 챗봇 소개 페이지 상단·하단 버튼' },
       { key: 'worksai', title: '웍스AI 바로가기', where: '공식 챗봇 소개 상단·하단 버튼, 팀 챗봇 소개 상단 버튼' }
     ]},
     { id: 'group-automation', title: '업무자동화 · 자세히 보기', items: [

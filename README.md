@@ -11,6 +11,7 @@
 | `/` | 메인 페이지 |
 | `/official-chatbot` | 공식 챗봇 소개 |
 | `/team-chatbot` | 팀 챗봇 소개 |
+| `/manneung-chatbot` | 만능서무 챗봇 소개 (구글 로그인·사용 방법) |
 | `/admin` | 관리자 (비밀번호 필요) |
 | `/p/<항목>` | 관리자가 업로드한 HTML 페이지 |
 

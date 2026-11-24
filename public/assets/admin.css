@@ -65,3 +65,13 @@ label { font-weight: 500; font-size: 15px; }
 .field .item-input { flex: none; width: 100%; }
 .row-end { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 12px; }
 .row-end .item-msg { flex: 1 1 240px; }
+
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.mode-switch { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; border: none; }
+.mode-opt { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px; border: 1px solid #C6D0DD; border-radius: 10px; background: #FFFFFF; font-size: 15px; cursor: pointer; }
+.mode-opt:has(input:checked) { border-color: #12355B; background: #E7EEF7; color: #12355B; font-weight: 700; }
+.mode-opt input { width: 18px; height: 18px; margin: 0; accent-color: #12355B; }
+.item-file { padding: 10px 14px; }
+.small { font-size: 13px; }
+.mode-note { color: #8E3F12; }
+[hidden] { display: none !important; }

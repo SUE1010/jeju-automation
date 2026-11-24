@@ -55,15 +55,3 @@ export async function getLinks() {
   for (let i = 0; i < flat.length; i += 2) out[flat[i]] = flat[i + 1];
   return out;
 }
-
-export const TEXTS_KEY = 'jeju-automation:texts';
-
-// 관리자 페이지에서 수정하는 하단(푸터) 문구
-export const TEXT_KEYS = ['footer_title', 'footer_dept', 'footer_contact', 'footer_notice'];
-
-export async function getTexts() {
-  const flat = (await redis('HGETALL', TEXTS_KEY)) || [];
-  const out = {};
-  for (let i = 0; i < flat.length; i += 2) out[flat[i]] = flat[i + 1];
-  return out;
-}

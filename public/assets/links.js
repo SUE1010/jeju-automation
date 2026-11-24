@@ -33,6 +33,8 @@
   }
 
   anchors.forEach(function (a) {
+    // data-default가 있으면 관리자 링크가 없어도 사이트 안 기본 주소로 연결합니다.
+    if (a.hasAttribute('data-default')) return;
     a.classList.add('is-pending');
     a.setAttribute('aria-disabled', 'true');
     a.removeAttribute('target');

@@ -47,7 +47,7 @@ export async function redis(...command) {
 export const LINKS_KEY = 'jeju-automation:links';
 
 // 관리자 페이지에서 관리하는 링크 목록 (여기에 없는 키는 저장할 수 없습니다)
-export const LINK_KEYS = ['manneung', 'worksai', 'converter', 'excel', 'hwp', 'odf', 'overtime', 'board'];
+export const LINK_KEYS = ['manneung', 'worksai', 'excel', 'hwp', 'odf', 'overtime', 'board'];
 
 export async function getLinks() {
   const flat = (await redis('HGETALL', LINKS_KEY)) || [];

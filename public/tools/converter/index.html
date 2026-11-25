@@ -226,16 +226,16 @@ footer { padding-block: 16px 26px; color: var(--muted); font-size: 12px; overflo
 </main>
 <div id="toast" role="status" hidden></div>
 
-<script src="jszip.min.js"></script>
-<script src="mammoth.browser.min.js"></script>
-<script src="xlsx.full.min.js"></script>
-<script src="pdf.min.js"></script>
-<script src="pdf.worker.min.js"></script>
-<script src="converter.js"></script>
+<script src="/tools/converter/jszip.min.js"></script>
+<script src="/tools/converter/mammoth.browser.min.js"></script>
+<script src="/tools/converter/xlsx.full.min.js"></script>
+<script src="/tools/converter/pdf.min.js"></script>
+<script src="/tools/converter/pdf.worker.min.js"></script>
+<script src="/tools/converter/converter.js"></script>
 <script>
 (function(){
   const C=window.JejuConverter; const $=s=>document.querySelector(s);
-  try{ if(window.pdfjsLib){ pdfjsLib.GlobalWorkerOptions.workerSrc='pdf.worker.min.js'; } }catch(e){}
+  try{ if(window.pdfjsLib){ pdfjsLib.GlobalWorkerOptions.workerSrc='/tools/converter/pdf.worker.min.js'; } }catch(e){}
   $('#ver').textContent=C.VERSION;
   let queue=[]; let results=[]; let converting=false;
   const toast=s=>{const t=$('#toast');t.textContent=s;t.hidden=false;clearTimeout(t._h);t._h=setTimeout(()=>t.hidden=true,3500)};
